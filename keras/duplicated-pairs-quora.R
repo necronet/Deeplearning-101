@@ -5,25 +5,25 @@ library(readr)
 library(purrr)
 
 FLAGS <- flags(
-  flag_integer("vocab_size", 50000),
-  flag_integer("max_len_padding", 20),
-  flag_integer("embedding_size", 256),
+  flag_integer("vocab_size", 40000),
+  flag_integer("max_len_padding", 15),
+  flag_integer("embedding_size", 128),
   flag_numeric("regularization", 0.0001),
-  flag_integer("seq_embedding_size", 512)
+  flag_integer("seq_embedding_size", 128)
 )
 
 quora_data <- get_file("quora_duplicate_questions.tsv","http://qim.fs.quoracdn.net/quora_duplicate_questions.tsv")
 
 quora_df <- read_tsv(quora_data)
 
-tokenizer <- text_tokenizer(num_words = 50000)
+tokenizer <- text_tokenizer(num_words = FLAGS$vocab_size)
 tokenizer %>% fit_text_tokenizer(unique(c(quora_df$question1, quora_df$question2)))
 
 question1 <- texts_to_sequences(tokenizer, quora_df$question1)
 question2 <- texts_to_sequences(tokenizer, quora_df$question2)
 
-question1_padded <- pad_sequences(question1, maxlen = 20, value = 50000 + 1)
-question2_padded <- pad_sequences(question2, maxlen = 20, value = 50000 + 1)
+question1_padded <- pad_sequences(question1, maxlen = 20, value = FLAGS$vocab_size + 1)
+question2_padded <- pad_sequences(question2, maxlen = 20, value = FLAGS$vocab_size + 1)
 
 input1 <- layer_input(shape = c(FLAGS$max_len_padding))
 input2 <- layer_input(shape = c(FLAGS$max_len_padding))
@@ -69,7 +69,7 @@ model %>% fit(
   list(train_question1_padded, train_question2_padded),
   train_is_duplicate, 
   batch_size = 128, 
-  epochs = 10, 
+  epochs = 2, 
   validation_data = list(
     list(val_question1_padded, val_question2_padded), 
     val_is_duplicate

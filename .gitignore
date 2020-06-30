@@ -1,3 +1,5 @@
+*.hdf5
+
 # Tuning folder
 tuning/
 

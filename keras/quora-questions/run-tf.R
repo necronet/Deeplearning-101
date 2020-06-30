@@ -12,3 +12,4 @@ runs <- tuning_run(
   runs_dir = "tuning", 
   sample = 0.2
 )
+cloudml_train("keras/quora-questions/duplicated-pairs-quora.R") 

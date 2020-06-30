@@ -4,14 +4,17 @@ library(keras)
 
 mnist <- dataset_mnist()
 
-l = 36
-randomIndex <- sample(1:length(mnist$train$y), l)
-par(mfcol = c(6, 6))
-par(mar=c(0, 0, 3, 0), xaxs='i',yaxs='i')
-for (i in 1:l) {
-  im <- t(apply(mnist$train$x[randomIndex[i], , ], 2, rev))
-  image(im, main = paste(mnist$train$y[randomIndex[i]]), xaxt='n', col=gray((0:255)/255))
+show_sample_image <- function(mnist) {
+  l = 36
+  randomIndex <- sample(1:length(mnist$train$y), l)
+  par(mfcol = c(6, 6))
+  par(mar=c(0, 0, 3, 0), xaxs='i',yaxs='i')
+  for (i in 1:l) {
+    im <- t(apply(mnist$train$x[randomIndex[i], , ], 2, rev))
+    image(im, main = paste(mnist$train$y[randomIndex[i]]), xaxt='n', col=gray((0:255)/255))
+  }
 }
+
 
 x_train <- mnist$train$x
 y_train <- mnist$train$y
@@ -49,17 +52,6 @@ history <- model %>% fit(
   epochs = 30, batch_size = 128, 
   validation_split = 0.2
 )
-
-model %>% evaluate(x_test, y_test)
-
-model %>% predict_classes(x_test)
-
-
-
-
-
-
-
 
 
 

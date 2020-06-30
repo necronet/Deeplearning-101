@@ -5,11 +5,11 @@ library(readr)
 library(purrr)
 
 FLAGS <- flags(
-  flag_integer("vocab_size", 40000),
-  flag_integer("max_len_padding", 15),
-  flag_integer("embedding_size", 128),
-  flag_numeric("regularization", 0.0001),
-  flag_integer("seq_embedding_size", 128)
+  flag_integer("vocab_size", 50000),
+  flag_integer("max_len_padding", 20),
+  flag_integer("embedding_size", 256),
+  flag_numeric("regularization", 1e-4),
+  flag_integer("seq_embedding_size", 512)
 )
 
 quora_data <- get_file("quora_duplicate_questions.tsv","http://qim.fs.quoracdn.net/quora_duplicate_questions.tsv")

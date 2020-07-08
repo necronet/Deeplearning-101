@@ -1,0 +1,14 @@
+<html>
+   <body>
+      <form action = "/classify" method = "POST" 
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" />
+         <input type = "submit"/>
+
+         {% if filename %}
+         
+            <img src="{{url_for('uploaded_image', filename=filename ) }}" width = 300/>
+         {% endif %}
+      </form>   
+   </body>
+</html>
